@@ -1,0 +1,6 @@
+user           = ""
+fingerprint    = ""
+tenancy        = ""
+region         = ""
+key_file       = ""
+compartment_id = ""
