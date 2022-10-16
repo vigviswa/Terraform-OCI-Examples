@@ -26,9 +26,9 @@ resource "oci_identity_compartment" "viswaterraform" {
   
 }
 
-data "oci_core_services" "AshburnServices" {
+# data "oci_core_services" "AshburnServices" {
 
-}
+# }
 
 resource "oci_core_vcn" "vigviswavcn" {
 
