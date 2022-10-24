@@ -3,7 +3,7 @@ resource "oci_core_instance" "first_instance" {
   compartment_id = oci_identity_compartment.viswaterraform.id
   availability_domain = data.oci_identity_availability_domains.test_ads.availability_domains[1].name
   shape = "VM.Standard.E3.Flex"
-  display_name = "First Instance"
+  display_name = "First Instances"
 
   agent_config {
 
