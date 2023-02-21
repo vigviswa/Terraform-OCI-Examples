@@ -1,0 +1,69 @@
+terraform {
+  required_providers {
+    oci = {
+      source = "hashicorp/oci"
+    }
+  }
+}
+
+provider "oci" {
+  region           = var.region
+  tenancy_ocid     = var.tenancy_ocid
+  user_ocid        = var.user_ocid
+  fingerprint      = var.fingerprint
+  private_key_path = var.private_key_path
+
+}
+
+resource "oci_identity_auth_token" "test_auth_token" {
+  #Required
+  description = "OIC Access Token"
+  user_id     = var.user_ocid
+}
+
+resource "oci_integration_integration_instance" "test_integration_instance" {
+  #Required
+  compartment_id            = var.compartment_id
+  display_name              = "vviswa_OIC_test"
+  integration_instance_type = "STANDARD"
+  is_byol                   = true
+  message_packs             = 1
+
+  #Optional
+  # alternate_custom_endpoints {
+  #   #Required
+  #   hostname = var.integration_instance_alternate_custom_endpoints_hostname
+
+  #   #Optional
+  #   certificate_secret_id = oci_vault_secret.test_secret.id
+  # }
+  # consumption_model = "METERED"
+  # custom_endpoint {
+  #   #Required
+  #   hostname = var.integration_instance_custom_endpoint_hostname
+
+  #   #Optional
+  #   # certificate_secret_id = oci_vault_secret.test_secret.id
+  # }
+  # defined_tags              = { "foo-namespace.bar-key" = "value" }
+  # freeform_tags             = { "bar-key" = "value" }
+  idcs_at = "eyJ4NXQjUzI1NiI6Il9FcjI1ZUxXN1lHaW9qbF8ydXpFcGd4WTNQcTcxNXprejBjRlJER0pLNVUiLCJ4NXQiOiJZUU9VdUFaS2tDbmJLMjhjZVo4YklCZHNOc2ciLCJraWQiOiJTSUdOSU5HX0tFWSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiIxYzQ3NDA3MjcyMWE0ZDI0OThlMTFlZWIyNGZjMzM2MSIsInNpZGxlIjo0ODAsImd0cCI6ImNjIiwidXNlci50ZW5hbnQubmFtZSI6ImlkY3MtNGM4ODQ3MmJiNGMyNDc1YWE2ZGRjZmFiYzUyYWYyOTAiLCJvcGMiOmZhbHNlLCJzdWJfbWFwcGluZ2F0dHIiOiJ1c2VyTmFtZSIsInByaW1UZW5hbnQiOnRydWUsImlzcyI6Imh0dHBzOlwvXC9pZGVudGl0eS5vcmFjbGVjbG91ZC5jb21cLyIsInRva190eXBlIjoiQVQiLCJjbGllbnRfaWQiOiIxYzQ3NDA3MjcyMWE0ZDI0OThlMTFlZWIyNGZjMzM2MSIsImNhX2d1aWQiOiJjYWNjdC01MmYyNDdhYWEzMDc0Y2YzYjkxMWY2MzY2OTE1ODRmOSIsImF1ZCI6WyJodHRwczpcL1wvaWRjcy00Yzg4NDcyYmI0YzI0NzVhYTZkZGNmYWJjNTJhZjI5MC51cy1waG9lbml4LWlkY3MtMS5zZWN1cmUuaWRlbnRpdHkub3JhY2xlY2xvdWQuY29tIiwiaHR0cHM6XC9cL2lkY3MtNGM4ODQ3MmJiNGMyNDc1YWE2ZGRjZmFiYzUyYWYyOTAuaWRlbnRpdHkub3JhY2xlY2xvdWQuY29tIiwidXJuOm9wYzpsYmFhczpsb2dpY2FsZ3VpZD1pZGNzLTRjODg0NzJiYjRjMjQ3NWFhNmRkY2ZhYmM1MmFmMjkwIl0sInN1Yl90eXBlIjoiY2xpZW50Iiwic2NvcGUiOiJ1cm46b3BjOmlkbTpnLmlkZW50aXR5c291cmNldGVtcGxhdGVfciB1cm46b3BjOmlkbTp0Lmdyb3Vwcy5tZW1iZXJzIHVybjpvcGM6aWRtOnQuYXBwIHVybjpvcGM6aWRtOnQudXNlci5sb2NrZWRzdGF0ZWNoYW5nZXIgdXJuOm9wYzppZG06dC5pZGJyaWRnZS5hZG1pbiB1cm46b3BjOmlkbTp0LnRlcm1zb2Z1c2UgdXJuOm9wYzppZG06dC5pZGNzcnB0cyB1cm46b3BjOmlkbTp0LnVzZXIuc2VjcmV0a2V5IHVybjpvcGM6aWRtOnQucmVxdWVzdHMgdXJuOm9wYzppZG06dC51c2VyLm1hbmFnZXIgdXJuOm9wYzppZG06dC5kcmcgdXJuOm9wYzppZG06dC5zZXNzaW9uIHVybjpvcGM6aWRtOnQuaGVscGRlc2suc2VjdXJpdHkgdXJuOm9wYzppZG06dC5zZWN1cml0eS5jbGllbnQgdXJuOm9wYzppZG06Zy5hcHB0ZW1wbGF0ZV9yIHVybjpvcGM6aWRtOnQuYnVsay51c2VyIHVybjpvcGM6aWRtOnQuZGlhZ25vc3RpY3NfciB1cm46b3BjOmlkbTp0LmlkYl9jb250YWluZXJzIHVybjpvcGM6aWRtOnQuaWRicmlkZ2UudXNlciB1cm46b3BjOmlkbTp0LnJhZGl1c3Byb3h5IHVybjpvcGM6aWRtOnQudXNlci5tZSB1cm46b3BjOmlkbTpnLmFsbF9yIHVybjpvcGM6aWRtOnQudXNlci5zZWN1cml0eSB1cm46b3BjOmlkbTp0LmF1ZGl0X3IgdXJuOm9wYzppZG06dC5qb2IuYXBwIHVybjpvcGM6aWRtOnQuc29taSB1cm46b3BjOmlkbTpnLnNoYXJlZGZpbGVzIHVybjpvcGM6aWRtOnQuaGVscGRlc2sudXNlciB1cm46b3BjOmlkbTp0LnVzZXIuZGJjcmVkZW50aWFsIHVybjpvcGM6aWRtOnQucmVzLmltcG9ydGV4cG9ydCB1cm46b3BjOmlkbTp0LmpvYi5pZGVudGl0eSB1cm46b3BjOmlkbTp0LmN1c3RvbWNsYWltcyB1cm46b3BjOmlkbTp0LnNhbWwgdXJuOm9wYzppZG06dC5tZmEgdXJuOm9wYzppZG06dC5kYi5hZG1pbiB1cm46b3BjOmlkbTp0LnVzZXIuYXBpa2V5IHVybjpvcGM6aWRtOnQuc2NoZW1hcyB1cm46b3BjOmlkbTp0Lm1mYS51c2VyYWRtaW4gdXJuOm9wYzppZG06dC51c2VyLm1hbmFnZXIuam9iIHVybjpvcGM6aWRtOnQub2F1dGggdXJuOm9wYzppZG06dC5ncm91cHMgdXJuOm9wYzppZG06dC5qb2IuaW1wb3J0ZXhwb3J0IHVybjpvcGM6aWRtOnQuaWRicmlkZ2UudW5tYXBwZWQuaWRjc2F0dHJpYnV0ZXMgdXJuOm9wYzppZG06dC5rcmIuYWRtaW4gdXJuOm9wYzppZG06dC5uYW1lZGFwcGFkbWluIHVybjpvcGM6aWRtOnQuYmxrcnB0cyB1cm46b3BjOmlkbTp0LnNlbGZyZWdpc3RyYXRpb25wcm9maWxlIHVybjpvcGM6aWRtOnQudXNlci5hdXRoZW50aWNhdGUgdXJuOm9wYzppZG06dC5ncmFudHMgdXJuOm9wYzppZG06dC5vYXV0aHRva2VuIHVybjpvcGM6aWRtOnQuYXV0aGVudGljYXRpb24gdXJuOm9wYzppZG06dC5jb250YWluZXIgdXJuOm9wYzppZG06dC5pbWFnZXMgdXJuOm9wYzppZG06dC5idWxrIHVybjpvcGM6aWRtOnQudXNlci5vYXV0aDJjbGllbnRjcmVkIHVybjpvcGM6aWRtOnQuZGVsZWdhdGVkLmdyb3VwLm1lbWJlcnMgdXJuOm9wYzppZG06dC5qb2Iuc2VhcmNoIHVybjpvcGM6aWRtOnQuaWRicmlkZ2UgdXJuOm9wYzppZG06dC5hcHBzZXJ2aWNlcyB1cm46b3BjOmlkbTp0LnVzZXIuZGJsb2dpbnVwZGF0ZXIgdXJuOm9wYzppZG06dC51c2VyLmF1dGh0b2tlbiB1cm46b3BjOmlkbTp0LnVzZXIuc210cGNyZWRlbnRpYWwgdXJuOm9wYzppZG06dC5zZXR0aW5ncyB1cm46b3BjOmlkbTp0LnVzZXIubWFuYWdlci5zZWN1cml0eSB1cm46b3BjOmlkbTp0LmNsb3VkZ2F0ZSB1cm46b3BjOmlkbTp0LmlkYnJpZGdlLnNvdXJjZWV2ZW50IHVybjpvcGM6aWRtOnQudXNlci5jYXBhYmlsaXRpZXNfdSB1cm46b3BjOmlkbTp0LnBvbGljeSB1cm46b3BjOmlkbTp0LnVzZXJzIHVybjpvcGM6aWRtOnQucmVwb3J0cyB1cm46b3BjOmlkbTp0LnVzZXIuc3VwcG9ydGFjY291bnQgdXJuOm9wYzppZG06dC5zZXNzaW9uLnJldm9rZSB1cm46b3BjOmlkbTpnLmlkY3NycHRzbWV0YV9yIiwiY2xpZW50QXBwUm9sZXMiOlsiR2xvYmFsIFZpZXdlciIsIkF1dGhlbnRpY2F0ZWQgQ2xpZW50IiwiSWRlbnRpdHkgRG9tYWluIEFkbWluaXN0cmF0b3IiXSwiY2xpZW50X3RlbmFudG5hbWUiOiJpZGNzLTRjODg0NzJiYjRjMjQ3NWFhNmRkY2ZhYmM1MmFmMjkwIiwicmVnaW9uX25hbWUiOiJ1cy1waG9lbml4LWlkY3MtMSIsImV4cCI6MTY0NDk0NzM4NSwiaWF0IjoxNjQ0OTQzNzg1LCJjbGllbnRfZ3VpZCI6ImYyYWYzMDEwMjBhNzQ5YjhhM2EzNTRhOGYyN2FmYzEyIiwiY2xpZW50X25hbWUiOiJWdmlzd2EtT0lDLUFwcCIsInRlbmFudF9pc3MiOiJodHRwczpcL1wvaWRjcy00Yzg4NDcyYmI0YzI0NzVhYTZkZGNmYWJjNTJhZjI5MC5pZGVudGl0eS5vcmFjbGVjbG91ZC5jb20iLCJ0ZW5hbnQiOiJpZGNzLTRjODg0NzJiYjRjMjQ3NWFhNmRkY2ZhYmM1MmFmMjkwIiwianRpIjoiMTE3ODhmMTZjZWVkNDdiNzk4NDEwMGVmNmJlMTExMTAifQ.moRGYSRpxe4qLcMlLZMoj7Re6FWGWgS9oHW0OkJMcefyyYm88Qk5Kv6cad8WiR-AxoseAmVSDiKCpsE8-if0kJyrnZuANQBE3PagGd4BtsPi06yEUPYQc9jezvo3BbnusYvZLev9pjzHm13wwMwPt5AuxEgDjcKu_FZ3UAEV6VnFwQRpEwbUnWNe933VeBwO0PQLsIzSyz6_q-26uJ2ZGPbGFOp9oM9IPwSzn_92FFNlEC3mhaDVQ_mM2ToN82uNBF-6KRAxFWUZ4A_kH5qu1T-mBnXRrAcyZPDtkWo76YzIvKOofZ1iNtjfJNPuswe38YyyVYTlVm49em0lrjVKTg"
+  # is_file_server_enabled    = var.integration_instance_is_file_server_enabled
+  # is_visual_builder_enabled = var.integration_instance_is_visual_builder_enabled
+  # network_endpoint_details {
+  #   #Required
+  #   network_endpoint_type = var.integration_instance_network_endpoint_details_network_endpoint_type
+
+  #   #Optional
+  #   allowlisted_http_ips = var.integration_instance_network_endpoint_details_allowlisted_http_ips
+  #   allowlisted_http_vcns {
+  #     #Required
+  #     id = var.integration_instance_network_endpoint_details_allowlisted_http_vcns_id
+
+  #     #Optional
+  #     allowlisted_ips = var.integration_instance_network_endpoint_details_allowlisted_http_vcns_allowlisted_ips
+  #   }
+  #   is_integration_vcn_allowlisted = var.integration_instance_network_endpoint_details_is_integration_vcn_allowlisted
+  # }
+  # state = var.integration_instance_target_state
+}
