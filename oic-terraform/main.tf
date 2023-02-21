@@ -21,6 +21,8 @@ resource "oci_identity_auth_token" "test_auth_token" {
   user_id     = var.user_ocid
 }
 
+# Terraform module for Oracle Integration Cloud
+
 resource "oci_integration_integration_instance" "test_integration_instance" {
   #Required
   compartment_id            = var.compartment_id
